@@ -1,5 +1,7 @@
 from collections import namedtuple
 import csv
+from collections import Counter 
+from collections import defaultdict
 
 Penguin = namedtuple("Penguin", [
     "species",           # Especie del pingüino (Adelie, Chinstrap, Gentoo)
@@ -51,8 +53,9 @@ def cuenta_pingüinos_por_especie(pingüinos: list[Penguin]) -> dict[str, int]:
     Devuelve:
     dict[str, int]: Diccionario que asocia cada especie de pingüino con su conteo.
     """
-    # TODO: Implementar la función
-    pass
+    especies = [e.species for e in pingüinos]
+    c = Counter(especies)
+    return c
 
 def calcula_media_masa_corporal_por_especie(pingüinos: list[Penguin]) -> dict[str, float]:
     """
@@ -64,8 +67,23 @@ def calcula_media_masa_corporal_por_especie(pingüinos: list[Penguin]) -> dict[s
     Devuelve:
     dict[str, float]: Diccionario que asocia cada especie de pingüino con su masa corporal media.
     """
-    # TODO: Implementar la función
-    pass
+    masas_por_especie = defaultdict(list) 
+    # 1. Agrupar y Filtrar
+    for p in pingüinos:
+        # 1.1. Filtrar los valores None
+        if p.body_mass_g is not None:
+            # 1.2. Agrega la masa a la lista de su especie
+            masas_por_especie[p.species].append(p.body_mass_g)
+            
+    # 2. Calcular la Media
+    medias_res = {}
+    for especie, masas in masas_por_especie.items():
+        # La media es la suma / el conteo
+        medias_res[especie] = sum(masas) // len(masas)
+        
+    return medias_res        
+
+    
 
 def calcula_minimo_maximo_pico_por_especie(pingüinos: list[Penguin]) -> dict[str, tuple[float, float]]:
     """
@@ -78,8 +96,15 @@ def calcula_minimo_maximo_pico_por_especie(pingüinos: list[Penguin]) -> dict[st
     dict[str, tuple[float, float]]: Diccionario que asocia cada especie de pingüino con una tupla
                                     que contiene la longitud mínima y máxima del pico.
     """
-    # TODO: Implementar la función
-    pass
+    pico_por_especie = defaultdict(list)
+    for p in pingüinos:
+        if not p.bill_length_mm == None:
+            pico_por_especie[p.species].append(p.bill_length_mm)
+    max_min = {}
+    for especie, longitud in pico_por_especie.items():
+        max_min[especie]=(min(longitud),max(longitud))  
+    return max_min    
+
 
 
 def cuenta_pingüinos_por_especie_filtro(pingüinos: list[Penguin], filtra_isla: str = None) -> dict[str, int]:

@@ -11,8 +11,15 @@ def sustituye_palabras(texto: str, diccionario: dict[str, str]) -> str:
     Devuelve:
         Texto resultante de las sustituciones.
     """
-    # TODO: Implementar la función
-    pass
+    res = []
+    palabras = texto.split()
+    for p in palabras:
+        if p in diccionario:
+            res.append(diccionario[p])
+        else:
+            res.append(p)     
+    return ' '.join(res)    
+    
 
 
 def indexa_por_iniciales(texto: str) -> dict[str, set[str]]:
@@ -28,8 +35,14 @@ def indexa_por_iniciales(texto: str) -> dict[str, set[str]]:
          que comienzan por dicha inicial.
     
     """
-    # TODO: Implementar la función
-    pass
+    palabras = texto.lower().split()
+    res = {}
+    for p in palabras:
+        inicial = p[0]
+        if inicial not in res:
+            res[inicial]= set()
+        res[inicial].add(p)    
+    return res       
 
 def construye_frecuencias_bigramas(texto: str) -> dict[str, float]:
     """
@@ -45,8 +58,21 @@ def construye_frecuencias_bigramas(texto: str) -> dict[str, float]:
     Devuelve:
         Diccionario que asocia a cada bigrama su frecuencia normalizada en el texto.
     """
-    # TODO: Implementar la función
-    pass
+    conteos = {}
+    texto = texto.lower()
+    for c1, c2 in zip(texto, texto[1:]):
+        bigrama = c1 + c2
+        if bigrama.isalpha():
+            conteos[bigrama] = conteos.get(bigrama, 0) +1
+    total_bigramas = sum(conteos.values()) 
+    for bigrama, recuento in conteos.items():
+        conteos[bigrama] = recuento/total_bigramas
+    return conteos     
+
+                 
+
+
+
 
 
 def calcula_distancia_media_frecuencias(freq1: dict[str, float], freq2: dict[str, float]) -> float:
@@ -61,8 +87,14 @@ def calcula_distancia_media_frecuencias(freq1: dict[str, float], freq2: dict[str
     Devuelve:
         Distancia media entre los dos vectores de frecuencias, o 0.0 si ambos diccionarios están vacíos.
     """
-    # TODO: Implementar la función
-    pass
+    if len(freq1) == 0 and len(freq2) == 0:
+        return 0.0
+    todas_claves = set(freq1.keys()).union(set(freq2.keys()))
+    suma = 0
+    for bigrama in todas_claves:
+        suma += abs(freq1.get(bigrama, 0) - freq2.get(bigrama,0)) 
+    return suma/len(todas_claves)
+
 
 def identifica_idioma(textos_ejemplo: dict[str, str], texto_a_identificar: str) -> str:
     """
@@ -76,8 +108,13 @@ def identifica_idioma(textos_ejemplo: dict[str, str], texto_a_identificar: str) 
     Devuelve:
         El idioma identificado del texto.
     """
-    # TODO: Implementar la función
-    pass
+    frecuencias_texto = construye_frecuencias_bigramas(texto_a_identificar)
+    distancias = []
+    for idioma, texto in textos_ejemplo.items():
+        frecuencias_idioma = construye_frecuencias_bigramas(texto)
+        distancia = calcula_distancia_media_frecuencias(frecuencias_texto, frecuencias_idioma)
+        distancias.append((distancia, idioma)) #ponemos dos parentésis para obtener una tupla
+    return min(distancias)[1]    
 
 
 

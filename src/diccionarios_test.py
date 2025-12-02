@@ -186,8 +186,8 @@ C'était le 15 août de l'année 182-."""
     assert res == "fr"
 
 test_sustituye_palabras()
-#test_indexa_por_iniciales()
-#test_construye_frecuencias_bigramas()
-#test_calcula_distancia_media_frecuencias()
-#test_identifica_idioma()
+test_indexa_por_iniciales()
+test_construye_frecuencias_bigramas()
+test_calcula_distancia_media_frecuencias()
+test_identifica_idioma()
 print("Todos los tests pasaron correctamente.")

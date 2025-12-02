@@ -61,8 +61,8 @@ def test_calcula_minimo_maximo_pico_por_especie_filtro():
     assert res == expected
 
 test_cuenta_pingüinos_por_especie()
-#test_calcula_media_masa_corporal_por_especie()
-#test_calcula_minimo_maximo_pico_por_especie()
+test_calcula_media_masa_corporal_por_especie()
+test_calcula_minimo_maximo_pico_por_especie()
 #test_cuenta_pingüinos_por_especie_filtro()
 #test_calcula_media_masa_corporal_por_especie_filtro()
 #test_calcula_minimo_maximo_pico_por_especie_filtro()
